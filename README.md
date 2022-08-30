@@ -3,7 +3,7 @@
 
 This repo trains an image classifier with [ADAN (Adaptive Nesterov momentum algorithm)](https://arxiv.org/abs/2208.06677) and compares the results with standard Adam.
 
-- We use @lucidrains PyTorch implementation inside a fastai training loop.
+- We use @lucidrains [PyTorch implementation](https://github.com/lucidrains/Adan-pytorch) inside a fastai training loop.
 - You can also find a fastai's style Adan implementation by Benjamin Warner in fastai_adan.py
 
 ## Results
