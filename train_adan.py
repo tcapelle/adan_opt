@@ -49,7 +49,7 @@ def run(
     fit(config)
         
 if __name__=="__main__":
-    Print("Training Adan FTW!")
+    print("Training Adan FTW!")
     run()
         
     
