@@ -50,7 +50,7 @@ def adan_step(p, lr, eps, wd, beta1, beta2, beta3, step, grad_avg, diff_avg, nes
     p.data.sub_(torch.add(grad_avg/db1, diff_avg/db2, alpha=beta2).mul_(lr)).div_(wd)
     return p
 
-def Adan(params, lr, beta1=0.02, beta2=0.08, beta3=0.01, eps=1e-8, wd=0.02):
+def Adan(params, lr, beta1=1-0.02, beta2=1-0.08, beta3=1-0.01, eps=1e-8, wd=0.02):
     "A `Optimizer` for Adan with `lr`, `beta`s, `eps` and `params`"
     cbs = [avg_grad, avg_diff_grad, avg_nesterov_est, prior_grad, step_stat, adan_step]
     return Optimizer(params, cbs, lr=lr, beta1=beta1, beta2=beta2, beta3=beta3, eps=eps, wd=wd)
