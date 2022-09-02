@@ -9,12 +9,12 @@ parameters:
     beta1:
         distribution: uniform
         min: 0
-        max: 1
+        max: 0.1
     beta2:
         distribution: uniform
         min: 0
-        max: 1
+        max: 0.1
     beta3:
         distribution: uniform
         min: 0
-        max: 1
+        max: 0.1

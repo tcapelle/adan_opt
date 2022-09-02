@@ -1,5 +1,5 @@
 from adan_pytorch import Adan
-from fastai_adan import Adan as AdanFastai
+from fastai_adan import FastAdan
 from fastai.vision.all import *
 
 import wandb
@@ -22,10 +22,12 @@ def fit(config, group="Adam"):
 adan_lucidrains = partial(OptimWrapper, opt=partial(Adan, betas=(0.02, 0.08, 0.01)))
 
 def get_config(opt, arch="convnext_tiny"):
-    if opt == "Adan":
+    if opt == "SGD":
+        config = SimpleNamespace(lr=1e-2, wd=2e-2, epochs=20, arch=arch, img_size=128, opt_func=partial(SGD, mom=0.9))
+    elif opt == "Adan":
         config = SimpleNamespace(lr=1e-2, wd=2e-2, epochs=20, arch=arch, img_size=128, opt_func=adan_lucidrains)
     elif opt == "AdanFastai":
-        config = SimpleNamespace(lr=1e-2, wd=2e-2, epochs=20, arch=arch, img_size=128, opt_func=AdanFastai)
+        config = SimpleNamespace(lr=1e-2, wd=2e-2, epochs=20, arch=arch, img_size=128, opt_func=FastAdan)
     else:
         config = SimpleNamespace(lr=1e-3, wd=1e-3, epochs=20, arch=arch, img_size=128, opt_func=Adam)
     return config
@@ -38,8 +40,5 @@ def run(opt: Param("Optimizer to use", str) = "Adam",
     for _ in range(n):
         config = get_config(opt, arch)
         fit(config, opt)
-        
-if __name__=="__main__":
-    run()
         
     

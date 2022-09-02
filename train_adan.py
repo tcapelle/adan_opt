@@ -31,7 +31,7 @@ def fit(config, group="Adan_sweep"):
         config = wandb.config
         opt_func = setup_adan(config.beta1, config.beta2, config.beta3, config.wd)
         learn = get_learner(config.img_size, config.arch, opt_func)
-        learn.fit_one_cycle(config.epochs, config.lr, cbs=WandbCallback(log_preds=False))
+        learn.fit_one_cycle(config.epochs, config.lr, cbs=[TerminateOnNaNCallback(), WandbCallback(log_preds=False)])
 
 @call_parse
 def run(
@@ -47,9 +47,5 @@ def run(
     
     # run the training
     fit(config)
-        
-if __name__=="__main__":
-    print("Training Adan FTW!")
-    run()
         
     
