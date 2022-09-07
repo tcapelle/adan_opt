@@ -1,6 +1,7 @@
 from adan_pytorch import Adan
 from fastai_adan import FastAdan
 from fastai.vision.all import *
+from madgrad import MADGRAD
 
 import wandb
 from fastai.callback.wandb import WandbCallback
@@ -20,6 +21,7 @@ def fit(config, group="Adam"):
         learn.fit_one_cycle(config.epochs, config.lr, wd=config.wd, cbs=WandbCallback(log_preds=False))
 
 adan_lucidrains = partial(OptimWrapper, opt=partial(Adan, betas=(0.02, 0.08, 0.01)))
+madgrad = partial(OptimWrapper)
 
 def get_config(opt, arch="convnext_tiny"):
     if opt == "SGD":
@@ -28,6 +30,8 @@ def get_config(opt, arch="convnext_tiny"):
         config = SimpleNamespace(lr=1e-2, wd=2e-2, epochs=20, arch=arch, img_size=128, opt_func=adan_lucidrains)
     elif opt == "AdanFastai":
         config = SimpleNamespace(lr=1e-2, wd=2e-2, epochs=20, arch=arch, img_size=128, opt_func=FastAdan)
+    elif opt == "MadGrad":
+        config = SimpleNamespace(lr=1e-2, wd=2e-2, epochs=20, arch=arch, img_size=128, opt_func=madgrad)
     else:
         config = SimpleNamespace(lr=1e-3, wd=1e-3, epochs=20, arch=arch, img_size=128, opt_func=Adam)
     return config
